@@ -28,12 +28,20 @@
 @implementation SignInViewController
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
-  [GIDSignIn sharedInstance].uiDelegate = self;
-  [[GIDSignIn sharedInstance] signInSilently];
+    [super viewDidLoad];
+    [GIDSignIn sharedInstance].uiDelegate = self;
+    [[GIDSignIn sharedInstance] signInSilently];
+    self.handle = [[FIRAuth auth]
+                   addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth, FIRUser *_Nullable user) {
+                       if (user) {
+                           [MeasurementHelper sendLoginEvent];
+                           [self performSegueWithIdentifier:SeguesSignInToFp sender:nil];
+                       }
+                   }];
 }
 
 - (void)dealloc {
+    [[FIRAuth auth] removeAuthStateDidChangeListener:_handle];
 }
 
 @end

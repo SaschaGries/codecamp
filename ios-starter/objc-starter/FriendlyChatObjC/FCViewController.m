@@ -67,12 +67,21 @@ static NSString* const kBannerAdUnitID = @"ca-app-pub-3940256099942544/293473571
 }
 
 - (void)dealloc {
+    [[_ref child:@"messages"] removeObserverWithHandle:_refHandle];
 }
 
 - (void)configureDatabase {
+    _ref = [[FIRDatabase database] reference];
+    // Listen for new messages in the Firebase database
+    _refHandle = [[_ref child:@"messages"] observeEventType:FIRDataEventTypeChildAdded withBlock:^(FIRDataSnapshot *snapshot) {
+        [_messages addObject:snapshot];
+        [_clientTable insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_messages.count-1 inSection:0]] withRowAnimation: UITableViewRowAnimationAutomatic];
+    }];
 }
 
 - (void)configureStorage {
+    NSString *storageUrl = [FIRApp defaultApp].options.storageBucket;
+    self.storageRef = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"gs://%@", storageUrl]];
 }
 
 - (void)configureRemoteConfig {
@@ -123,9 +132,45 @@ static NSString* const kBannerAdUnitID = @"ca-app-pub-3940256099942544/293473571
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-  // Dequeue cell
-  UITableViewCell *cell = [_clientTable dequeueReusableCellWithIdentifier:@"tableViewCell" forIndexPath:indexPath];
-  return cell;
+    // Dequeue cell
+    UITableViewCell *cell = [_clientTable dequeueReusableCellWithIdentifier:@"tableViewCell" forIndexPath:indexPath];
+    
+    // Unpack message from Firebase DataSnapshot
+    FIRDataSnapshot *messageSnapshot = _messages[indexPath.row];
+    NSDictionary<NSString *, NSString *> *message = messageSnapshot.value;
+    NSString *name = message[MessageFieldsname];
+    NSString *imageURL = message[MessageFieldsimageURL];
+    if (imageURL) {
+        if ([imageURL hasPrefix:@"gs://"]) {
+            [[[FIRStorage storage] referenceForURL:imageURL] dataWithMaxSize:INT64_MAX
+                                                                  completion:^(NSData *data, NSError *error) {
+                                                                      if (error) {
+                                                                          NSLog(@"Error downloading: %@", error);
+                                                                          return;
+                                                                      }
+                                                                      cell.imageView.image = [UIImage imageWithData:data];
+                                                                      [tableView reloadData];
+                                                                  }];
+        } else {
+            cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+        }
+        cell.textLabel.text = [NSString stringWithFormat:@"sent by: %@", name];
+    } else {
+        NSString *text = message[MessageFieldstext];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@: %@", name, text];
+        cell.imageView.image = [UIImage imageNamed: @"ic_account_circle"];
+        NSString *photoURL = message[MessageFieldsphotoURL];
+        if (photoURL) {
+            NSURL *URL = [NSURL URLWithString:photoURL];
+            if (URL) {
+                NSData *data = [NSData dataWithContentsOfURL:URL];
+                if (data) {
+                    cell.imageView.image = [UIImage imageWithData:data];
+                }
+            }
+        }
+    }
+    return cell;
 }
 
 // UITextViewDelegate protocol methods
@@ -137,6 +182,15 @@ static NSString* const kBannerAdUnitID = @"ca-app-pub-3940256099942544/293473571
 }
 
 - (void)sendMessage:(NSDictionary *)data {
+    NSMutableDictionary *mdata = [data mutableCopy];
+    mdata[MessageFieldsname] = [FIRAuth auth].currentUser.displayName;
+    NSURL *photoURL = [FIRAuth auth].currentUser.photoURL;
+    if (photoURL) {
+        mdata[MessageFieldsphotoURL] = [photoURL absoluteString];
+    }
+    
+    // Push data to Firebase Database
+    [[[_ref child:@"messages"] childByAutoId] setValue:mdata];
 }
 
 # pragma mark - Image Picker
@@ -155,26 +209,49 @@ static NSString* const kBannerAdUnitID = @"ca-app-pub-3940256099942544/293473571
 
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
-  [picker dismissViewControllerAnimated:YES completion:NULL];
-
-  NSURL *referenceURL = info[UIImagePickerControllerReferenceURL];
-  if (referenceURL) {
-    PHFetchResult* assets = [PHAsset fetchAssetsWithALAssetURLs:@[referenceURL] options:nil];
-    PHAsset *asset = [assets firstObject];
-    [asset requestContentEditingInputWithOptions:nil
-                               completionHandler:^(PHContentEditingInput *contentEditingInput, NSDictionary *info) {
-                                 NSURL *imageFile = contentEditingInput.fullSizeImageURL;
-                                 NSString *filePath = [NSString stringWithFormat:@"%@/%lld/%@", [FIRAuth auth].currentUser.uid, (long long)([[NSDate date] timeIntervalSince1970] * 1000.0), [referenceURL lastPathComponent]];
-                             }
-   ];
-  } else {
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.8);
-    NSString *imagePath =
-    [NSString stringWithFormat:@"%@/%lld.jpg",
-     [FIRAuth auth].currentUser.uid,
-     (long long)([[NSDate date] timeIntervalSince1970] * 1000.0)];
-  }
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+    NSURL *referenceURL = info[UIImagePickerControllerReferenceURL];
+    // if it's a photo from the library, not an image from the camera
+    if (referenceURL) {
+        PHFetchResult* assets = [PHAsset fetchAssetsWithALAssetURLs:@[referenceURL] options:nil];
+        PHAsset *asset = [assets firstObject];
+        [asset requestContentEditingInputWithOptions:nil
+                                   completionHandler:^(PHContentEditingInput *contentEditingInput, NSDictionary *info) {
+                                       NSURL *imageFile = contentEditingInput.fullSizeImageURL;
+                                       NSString *filePath = [NSString stringWithFormat:@"%@/%lld/%@",
+                                                             [FIRAuth auth].currentUser.uid,
+                                                             (long long)([[NSDate date] timeIntervalSince1970] * 1000.0),
+                                                             [referenceURL lastPathComponent]];
+                                       [[_storageRef child:filePath]
+                                        putFile:imageFile metadata:nil
+                                        completion:^(FIRStorageMetadata *metadata, NSError *error) {
+                                            if (error) {
+                                                NSLog(@"Error uploading: %@", error);
+                                                return;
+                                            }
+                                            [self sendMessage:@{MessageFieldsimageURL:[_storageRef child:metadata.path].description}];
+                                        }
+                                        ];
+                                   }];
+    } else {
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        NSData *imageData = UIImageJPEGRepresentation(image, 0.8);
+        NSString *imagePath =
+        [NSString stringWithFormat:@"%@/%lld.jpg",
+         [FIRAuth auth].currentUser.uid,
+         (long long)([[NSDate date] timeIntervalSince1970] * 1000.0)];
+        FIRStorageMetadata *metadata = [FIRStorageMetadata new];
+        metadata.contentType = @"image/jpeg";
+        [[_storageRef child:imagePath] putData:imageData metadata:metadata
+                                    completion:^(FIRStorageMetadata * _Nullable metadata, NSError * _Nullable error) {
+                                        if (error) {
+                                            NSLog(@"Error uploading: %@", error);
+                                            return;
+                                        }
+                                        [self sendMessage:@{MessageFieldsimageURL:[_storageRef child:metadata.path].description}];
+                                    }];
+    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -182,7 +259,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 }
 
 - (IBAction)signOut:(UIButton *)sender {
-  [self dismissViewControllerAnimated:YES completion:NULL];
+    FIRAuth *firebaseAuth = [FIRAuth auth];
+    NSError *signOutError;
+    BOOL status = [firebaseAuth signOut:&signOutError];
+    if (!status) {
+        NSLog(@"Error signing out: %@", signOutError);
+        return;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)showAlert:(NSString *)title message:(NSString *)message {

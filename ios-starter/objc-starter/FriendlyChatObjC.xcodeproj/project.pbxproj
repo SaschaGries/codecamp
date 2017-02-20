@@ -10,7 +10,7 @@
 		107960851C6130EF003DB6CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 107960841C6130EF003DB6CC /* main.m */; };
 		107960881C6130EF003DB6CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 107960871C6130EF003DB6CC /* AppDelegate.m */; };
 		1079608B1C6130EF003DB6CC /* FCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1079608A1C6130EF003DB6CC /* FCViewController.m */; };
-		107960A91C6131B6003DB6CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 107960A81C6131B6003DB6CC /* Main.storyboard */; };
+		107960A91C6131B6003DB6CC /* Test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 107960A81C6131B6003DB6CC /* Test.storyboard */; };
 		107960AE1C613207003DB6CC /* MeasurementHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 107960AD1C613207003DB6CC /* MeasurementHelper.m */; };
 		107960B11C61321D003DB6CC /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 107960B01C61321D003DB6CC /* Constants.m */; };
 		107960B61C613263003DB6CC /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107960B51C613263003DB6CC /* SignInViewController.m */; };
@@ -18,6 +18,8 @@
 		10AF4CD21DD238C00096D192 /* Bladefile in Resources */ = {isa = PBXBuildFile; fileRef = 10AF4CCE1DD238C00096D192 /* Bladefile */; };
 		10AF4CD31DD238C00096D192 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10AF4CCF1DD238C00096D192 /* Images.xcassets */; };
 		10AF4CD41DD238C00096D192 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10AF4CD01DD238C00096D192 /* LaunchScreen.xib */; };
+		26ACB5D6C6C073FE021D1443 /* libPods-FriendlyChatObjC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AC41C60E0E8F2E76911399C /* libPods-FriendlyChatObjC.a */; };
+		962CD6261E5B139200491C3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 962CD6251E5B139200491C3E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +29,7 @@
 		107960871C6130EF003DB6CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		107960891C6130EF003DB6CC /* FCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FCViewController.h; sourceTree = "<group>"; };
 		1079608A1C6130EF003DB6CC /* FCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FCViewController.m; sourceTree = "<group>"; };
-		107960A81C6131B6003DB6CC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		107960A81C6131B6003DB6CC /* Test.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Test.storyboard; sourceTree = "<group>"; };
 		107960AA1C6131E4003DB6CC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		107960AC1C613207003DB6CC /* MeasurementHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementHelper.h; sourceTree = "<group>"; };
 		107960AD1C613207003DB6CC /* MeasurementHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementHelper.m; sourceTree = "<group>"; };
@@ -39,6 +41,10 @@
 		10AF4CCE1DD238C00096D192 /* Bladefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bladefile; sourceTree = "<group>"; };
 		10AF4CCF1DD238C00096D192 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		10AF4CD01DD238C00096D192 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		1F87D3FB8E0CFE0F623FC29E /* Pods-FriendlyChatObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendlyChatObjC.release.xcconfig"; path = "Pods/Target Support Files/Pods-FriendlyChatObjC/Pods-FriendlyChatObjC.release.xcconfig"; sourceTree = "<group>"; };
+		3AC41C60E0E8F2E76911399C /* libPods-FriendlyChatObjC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FriendlyChatObjC.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		962CD6251E5B139200491C3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "FriendlyChatObjC/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9ED8D1017B9927C5A7CCA356 /* Pods-FriendlyChatObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendlyChatObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FriendlyChatObjC/Pods-FriendlyChatObjC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26ACB5D6C6C073FE021D1443 /* libPods-FriendlyChatObjC.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,9 +62,12 @@
 		107960771C6130EF003DB6CC = {
 			isa = PBXGroup;
 			children = (
+				962CD6251E5B139200491C3E /* GoogleService-Info.plist */,
 				10AF4CCB1DD238C00096D192 /* shared */,
 				107960821C6130EF003DB6CC /* FriendlyChatObjC */,
 				107960811C6130EF003DB6CC /* Products */,
+				21CAEF7F49AE69B0C285F029 /* Pods */,
+				DA5615CDA2CA4AA29359B517 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				107960AA1C6131E4003DB6CC /* Info.plist */,
-				107960A81C6131B6003DB6CC /* Main.storyboard */,
+				107960A81C6131B6003DB6CC /* Test.storyboard */,
 				107960841C6130EF003DB6CC /* main.m */,
 			);
 			name = "Supporting Files";
@@ -116,6 +126,23 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
+		21CAEF7F49AE69B0C285F029 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9ED8D1017B9927C5A7CCA356 /* Pods-FriendlyChatObjC.debug.xcconfig */,
+				1F87D3FB8E0CFE0F623FC29E /* Pods-FriendlyChatObjC.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DA5615CDA2CA4AA29359B517 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3AC41C60E0E8F2E76911399C /* libPods-FriendlyChatObjC.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -123,9 +150,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 107960A21C6130EF003DB6CC /* Build configuration list for PBXNativeTarget "FriendlyChatObjC" */;
 			buildPhases = (
+				62BF603F87EDB9AF22BAF5C4 /* [CP] Check Pods Manifest.lock */,
 				1079607C1C6130EF003DB6CC /* Sources */,
 				1079607D1C6130EF003DB6CC /* Frameworks */,
 				1079607E1C6130EF003DB6CC /* Resources */,
+				E9327C38CBA9357379159EA6 /* [CP] Embed Pods Frameworks */,
+				033E932D52E3DD50DA1B83E8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,12 +206,61 @@
 				10AF4CD41DD238C00096D192 /* LaunchScreen.xib in Resources */,
 				10AF4CD21DD238C00096D192 /* Bladefile in Resources */,
 				10AF4CD31DD238C00096D192 /* Images.xcassets in Resources */,
-				107960A91C6131B6003DB6CC /* Main.storyboard in Resources */,
+				107960A91C6131B6003DB6CC /* Test.storyboard in Resources */,
 				10AF4CD11DD238C00096D192 /* logo1024.png in Resources */,
+				962CD6261E5B139200491C3E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		033E932D52E3DD50DA1B83E8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FriendlyChatObjC/Pods-FriendlyChatObjC-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		62BF603F87EDB9AF22BAF5C4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E9327C38CBA9357379159EA6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FriendlyChatObjC/Pods-FriendlyChatObjC-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1079607C1C6130EF003DB6CC /* Sources */ = {
@@ -288,6 +367,7 @@
 		};
 		107960A31C6130EF003DB6CC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9ED8D1017B9927C5A7CCA356 /* Pods-FriendlyChatObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -300,6 +380,7 @@
 		};
 		107960A41C6130EF003DB6CC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F87D3FB8E0CFE0F623FC29E /* Pods-FriendlyChatObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
